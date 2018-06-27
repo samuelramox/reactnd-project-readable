@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { postsLoading, postsErrored, posts, post } from './posts';
 import { categoriesLoading, categoriesErrored, categories } from './categories';
+import { commentsLoading, commentsErrored, comments } from './comments';
 
 export default combineReducers({
   postsLoading,
@@ -9,5 +10,8 @@ export default combineReducers({
   post,
   categoriesLoading,
   categoriesErrored,
-  categories
+  categories,
+  commentsLoading,
+  commentsErrored,
+  comments
 });
