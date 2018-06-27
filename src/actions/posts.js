@@ -45,13 +45,13 @@ export function postsFetchData() {
 export function postFetchById(idPost) {
   const url = `http://localhost:3001/posts/${idPost}`;
   return dispatch => {
-    dispatch(postsIsLoading(true));
+    dispatch(postsLoading(true));
     get(url)
       .then(res => {
-        dispatch(postsIsLoading(false));
+        dispatch(postsLoading(false));
         return res.data;
       })
-      .then(post => dispatch(postFetchByIdDataSuccess(post)))
-      .catch(() => dispatch(postsHasErrored(true)));
+      .then(post => dispatch(postIdSuccess(post)))
+      .catch(() => dispatch(postsErrored(true)));
   };
 }

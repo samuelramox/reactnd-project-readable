@@ -13,9 +13,11 @@ class Post extends PureComponent {
 
   render() {
     const { post, c_isLoading, p_isLoading, comments } = this.props;
+
     if (p_isLoading) {
       return <h1>Loading</h1>;
     }
+
     return (
       <article>
         <h1>{post.title}</h1>
