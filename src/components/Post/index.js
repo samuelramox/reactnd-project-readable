@@ -6,7 +6,9 @@ import Comments from '../Comments';
 
 class Post extends PureComponent {
   componentDidMount() {
-    const { id } = this.props.match.params;
+    const { match = {} } = this.props;
+    const { params = {} } = match;
+    const { id } = params;
     this.props.fetchPost(id);
     this.props.fetchComments(id);
   }

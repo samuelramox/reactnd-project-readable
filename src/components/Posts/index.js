@@ -17,13 +17,21 @@ class Posts extends Component {
       return <h1>Loading</h1>;
     }
     return (
-      <ul>
-        {posts.map(post => (
-          <li key={post.id}>
-            <Link to={`/posts/${post.id}`}>{post.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <ul>
+          {posts.map(post => (
+            <li key={post.id}>
+              <Link
+                to={{
+                  pathname: `/posts/${post.id}`
+                }}
+              >
+                {post.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     );
   }
 }
