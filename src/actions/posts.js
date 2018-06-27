@@ -1,4 +1,4 @@
-import { get } from '../services';
+import { get, post, put } from '../services';
 
 export function postsLoading(bool) {
   return {
@@ -28,6 +28,13 @@ export function postIdSuccess(post) {
   };
 }
 
+export function insertUpdatePostSuccess(post) {
+  return {
+    type: 'INSERT_UPDATE_POST_SUCCESS',
+    post
+  };
+}
+
 export function postsFetchData() {
   const url = 'http://localhost:3001/posts';
   return dispatch => {
@@ -52,6 +59,37 @@ export function postFetchById(idPost) {
         return res.data;
       })
       .then(post => dispatch(postIdSuccess(post)))
+      .catch(() => dispatch(postsErrored(true)));
+  };
+}
+
+export function insertPost(postData, id) {
+  const baseUrl = 'http://localhost:3001/posts';
+  const url = id ? `${baseUrl}/${id}` : baseUrl;
+  return dispatch => {
+    post(url, postData)
+      .then(res => {
+        dispatch(postsLoading(false));
+        return res.data;
+      })
+      .then(post => dispatch(insertUpdatePostSuccess(post)))
+      .catch(() => dispatch(postsErrored(true)));
+  };
+}
+
+export function updatePost(id, title, body) {
+  const url = `http://localhost:3001/posts/${id}`;
+  const data = {
+    title,
+    body
+  };
+  return dispatch => {
+    put(url, data)
+      .then(res => {
+        dispatch(postsLoading(false));
+        return res.data;
+      })
+      .then(post => dispatch(insertUpdatePostSuccess(post)))
       .catch(() => dispatch(postsErrored(true)));
   };
 }

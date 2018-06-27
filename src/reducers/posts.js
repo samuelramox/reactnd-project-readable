@@ -2,6 +2,7 @@ const POSTS_LOADING = 'POSTS_LOADING';
 const POSTS_ERRORED = 'POSTS_ERRORED';
 const POSTS_SUCCESS = 'POSTS_SUCCESS';
 const POST_ID_SUCCESS = 'POST_ID_SUCCESS';
+const INSERT_UPDATE_POST_SUCCESS = 'INSERT_UPDATE_POST_SUCCESS';
 
 export function postsLoading(state = false, action) {
   switch (action.type) {
@@ -33,6 +34,8 @@ export function posts(state = [], action) {
 export function post(state = [], action) {
   switch (action.type) {
     case POST_ID_SUCCESS:
+      return action.post;
+    case INSERT_UPDATE_POST_SUCCESS:
       return action.post;
     default:
       return state;
