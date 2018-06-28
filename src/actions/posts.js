@@ -35,7 +35,7 @@ export function insertUpdatePostSuccess(post) {
   };
 }
 
-export function deletePost(post) {
+export function deletePostSucess(post) {
   return {
     type: 'DELETE_POST',
     post
@@ -103,14 +103,13 @@ export function updatePost(id, { title, body }) {
 
 export function deletePost(id) {
   const url = `http://localhost:3001/posts/${id}`;
-
   return dispatch => {
     deleteData(url)
       .then(res => {
         dispatch(postsLoading(false));
         return res.data;
       })
-      .then(post => dispatch(deletePost(post)))
+      .then(post => dispatch(deletePostSucess(post)))
       .catch(() => dispatch(postsErrored(true)));
   };
 }
