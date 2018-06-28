@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Categories from './components/Categories';
 import HandleComment from './components/HandleComment';
 import HandlePost from './components/HandlePost';
 import NotFound from './components/NotFound';
@@ -13,7 +12,6 @@ class App extends Component {
       <div className="App">
         <Switch>
           <Route exact path="/" component={Posts} />
-          <Route path="/categories" component={Categories} />
           <Route path="/:category" component={Posts} />
           <Route path="/:category/:id" component={Post} />
           <Route path="/admin/post" component={HandlePost} />
