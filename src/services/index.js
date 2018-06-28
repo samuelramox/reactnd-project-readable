@@ -24,7 +24,7 @@ export function put(url, data) {
   return axios({
     method: 'put',
     url,
-    ...data,
+    data,
     headers
   });
 }
