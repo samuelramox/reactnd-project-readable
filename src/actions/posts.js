@@ -1,4 +1,4 @@
-import { get, post, put } from '../services';
+import { get, post, put, deleteData } from '../services';
 
 export function postsLoading(bool) {
   return {
@@ -31,6 +31,13 @@ export function postIdSuccess(post) {
 export function insertUpdatePostSuccess(post) {
   return {
     type: 'INSERT_UPDATE_POST_SUCCESS',
+    post
+  };
+}
+
+export function deletePost(post) {
+  return {
+    type: 'DELETE_POST',
     post
   };
 }
@@ -77,7 +84,7 @@ export function insertPost(postData, id) {
   };
 }
 
-export function updatePost(id, title, body) {
+export function updatePost(id, { title, body }) {
   const url = `http://localhost:3001/posts/${id}`;
   const data = {
     title,
@@ -90,6 +97,20 @@ export function updatePost(id, title, body) {
         return res.data;
       })
       .then(post => dispatch(insertUpdatePostSuccess(post)))
+      .catch(() => dispatch(postsErrored(true)));
+  };
+}
+
+export function deletePost(id) {
+  const url = `http://localhost:3001/posts/${id}`;
+
+  return dispatch => {
+    deleteData(url)
+      .then(res => {
+        dispatch(postsLoading(false));
+        return res.data;
+      })
+      .then(post => dispatch(deletePost(post)))
       .catch(() => dispatch(postsErrored(true)));
   };
 }
