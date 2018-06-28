@@ -1,19 +1,21 @@
-const CATEGORIES_LOADING = 'CATEGORIES_LOADING';
-const CATEGORIES_ERRORED = 'CATEGORIES_ERRORED';
-const CATEGORIES_SUCCESS = 'CATEGORIES_SUCCESS';
+import {
+  CATEGORIES_IS_LOADING,
+  CATEGORIES_HAS_ERRORED,
+  CATEGORIES_FETCH_DATA_SUCCESS
+} from '../services/actions';
 
-export function categoriesLoading(state = false, action) {
+export function categoriesIsLoading(state = false, action) {
   switch (action.type) {
-    case CATEGORIES_LOADING:
+    case CATEGORIES_IS_LOADING:
       return action.isLoading;
     default:
       return state;
   }
 }
 
-export function categoriesErrored(state = false, action) {
+export function categoriesHasErrored(state = false, action) {
   switch (action.type) {
-    case CATEGORIES_ERRORED:
+    case CATEGORIES_HAS_ERRORED:
       return action.hasErrored;
     default:
       return state;
@@ -22,7 +24,7 @@ export function categoriesErrored(state = false, action) {
 
 export function categories(state = [], action) {
   switch (action.type) {
-    case CATEGORIES_SUCCESS:
+    case CATEGORIES_FETCH_DATA_SUCCESS:
       return action.categories;
     default:
       return state;

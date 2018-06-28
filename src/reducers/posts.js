@@ -1,23 +1,25 @@
-const POSTS_LOADING = 'POSTS_LOADING';
-const POSTS_ERRORED = 'POSTS_ERRORED';
-const POSTS_SUCCESS = 'POSTS_SUCCESS';
-const POST_ID_SUCCESS = 'POST_ID_SUCCESS';
-const INSERT_UPDATE_POST_SUCCESS = 'INSERT_UPDATE_POST_SUCCESS';
-const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
-const HANDLE_SORT_POSTS = 'HANDLE_SORT_POSTS';
+import {
+  POSTS_FETCH_DATA_SUCCESS,
+  POSTS_IS_LOADING,
+  POSTS_HAS_ERRORED,
+  POST_FETCH_BY_ID_DATA_SUCCESS,
+  INSERT_UPDATE_POST_SUCCESS,
+  DELETE_POST_SUCCESS,
+  HANDLE_SORT_POSTS
+} from '../services/actions';
 
-export function postsLoading(state = false, action) {
+export function postsIsLoading(state = false, action) {
   switch (action.type) {
-    case POSTS_LOADING:
+    case POSTS_IS_LOADING:
       return action.isLoading;
     default:
       return state;
   }
 }
 
-export function postsErrored(state = false, action) {
+export function postsHasErrored(state = false, action) {
   switch (action.type) {
-    case POSTS_ERRORED:
+    case POSTS_HAS_ERRORED:
       return action.hasErrored;
     default:
       return state;
@@ -30,7 +32,7 @@ function sortBy(posts, sortBy) {
 
 export function posts(state = [], action) {
   switch (action.type) {
-    case POSTS_SUCCESS:
+    case POSTS_FETCH_DATA_SUCCESS:
       return action.posts;
     case HANDLE_SORT_POSTS:
       return [...sortBy(state, action.sortBy)];
@@ -41,7 +43,7 @@ export function posts(state = [], action) {
 
 export function post(state = [], action) {
   switch (action.type) {
-    case POST_ID_SUCCESS:
+    case POST_FETCH_BY_ID_DATA_SUCCESS:
       return action.post;
     case INSERT_UPDATE_POST_SUCCESS:
       return action.post;

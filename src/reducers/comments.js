@@ -1,22 +1,24 @@
-const COMMENTS_LOADING = 'COMMENTS_LOADING';
-const COMMENTS_ERRORED = 'COMMENTS_ERRORED';
-const COMMENTS_SUCCESS = 'COMMENTS_SUCCESS';
-const COMMENT_ID_SUCCESS = 'COMMENT_ID_SUCCESS';
-const INSERT_UPDATE_COMMENT_SUCCESS = 'INSERT_UPDATE_COMMENT_SUCCESS';
-const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
+import {
+  COMMENTS_IS_LOADING,
+  COMMENTS_HAS_ERRORED,
+  COMMENTS_FETCH_DATA_SUCCESS,
+  COMMENT_FETCH_BY_ID_DATA_SUCCESS,
+  INSERT_UPDATE_COMMENT_SUCCESS,
+  DELETE_COMMENT_SUCCESS
+} from '../services/actions';
 
-export function commentsLoading(state = false, action) {
+export function commentsIsLoading(state = false, action) {
   switch (action.type) {
-    case COMMENTS_LOADING:
+    case COMMENTS_IS_LOADING:
       return action.isLoading;
     default:
       return state;
   }
 }
 
-export function commentsErrored(state = false, action) {
+export function commentsHasErrored(state = false, action) {
   switch (action.type) {
-    case COMMENTS_ERRORED:
+    case COMMENTS_HAS_ERRORED:
       return action.hasErrored;
     default:
       return state;
@@ -25,7 +27,7 @@ export function commentsErrored(state = false, action) {
 
 export function comments(state = [], action) {
   switch (action.type) {
-    case COMMENTS_SUCCESS:
+    case COMMENTS_FETCH_DATA_SUCCESS:
       return action.comments;
     default:
       return state;
@@ -34,7 +36,7 @@ export function comments(state = [], action) {
 
 export function comment(state = [], action) {
   switch (action.type) {
-    case COMMENT_ID_SUCCESS:
+    case COMMENT_FETCH_BY_ID_DATA_SUCCESS:
       return action.comment;
     case INSERT_UPDATE_COMMENT_SUCCESS:
       return action.comment;
