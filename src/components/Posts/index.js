@@ -5,8 +5,23 @@ import { postsFetchData, deletePost } from '../../actions/posts';
 
 class Posts extends Component {
   componentDidMount() {
-    this.props.fetchData();
+    const category = this.getCategoryName();
+    if (this.isRenderedByCategory()) {
+      this.props.fetchData(category);
+    } else {
+      this.props.fetchData();
+    }
   }
+
+  isRenderedByCategory = () => {
+    return !!this.getCategoryName();
+  };
+
+  getCategoryName = () => {
+    const { match = {} } = this.props;
+    const { params = {} } = match;
+    return params.category;
+  };
 
   onDeletePost = async id => {
     const resultConfirm = window.confirm('Delete this item?');
@@ -18,22 +33,26 @@ class Posts extends Component {
 
   render() {
     const { posts, hasErrored, isLoading } = this.props;
-
+    const message = this.getCategoryName()
+      ? `List all posts of ${this.getCategoryName()}`
+      : 'List all posts';
     if (hasErrored) {
       return <h1>Error with data</h1>;
     }
     if (isLoading) {
       return <h1>Loading</h1>;
     }
+
     return (
       <div>
         <Link to="/admin/post">Create</Link>
+        <h1>{message}</h1>
         <ul>
           {posts.map(post => (
             <li key={post.id}>
               <Link
                 to={{
-                  pathname: `/posts/${post.id}`
+                  pathname: `/${post.category}/${post.id}`
                 }}
               >
                 {post.title}
@@ -42,14 +61,17 @@ class Posts extends Component {
               <Link to={`/admin/post/${post.id}`}>Edit</Link>
               <button onClick={() => this.onDeletePost(post.id)}>Delete</button>
               <div>
-                Author: <b>{post.author}</b>
+                Author: <strong>{post.author}</strong>
               </div>
               <div>
-                <b>{post.commentCount}</b>Comments
+                Category: <strong> {post.category} </strong>
+              </div>
+              <div>
+                <strong>{post.commentCount}</strong> Comments
               </div>
               <div>
                 <button> - </button>
-                <b>{post.voteScore}</b>Votes
+                <strong>{post.voteScore}</strong> Votes
                 <button> + </button>
               </div>
             </li>
@@ -67,7 +89,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: () => dispatch(postsFetchData()),
+  fetchData: idCategory => dispatch(postsFetchData(idCategory)),
   deletePost: idPost => dispatch(deletePost(idPost))
 });
 

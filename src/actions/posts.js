@@ -42,8 +42,9 @@ export function deletePostSucess(post) {
   };
 }
 
-export function postsFetchData() {
-  const url = 'http://localhost:3001/posts';
+export function postsFetchData(category) {
+  const baseUrl = 'http://localhost:3001';
+  const url = category ? `${baseUrl}/${category}/posts` : `${baseUrl}/posts`;
   return dispatch => {
     dispatch(postsLoading(true));
     get(url)
@@ -51,7 +52,7 @@ export function postsFetchData() {
         dispatch(postsLoading(false));
         return res.data;
       })
-      .then(posts => dispatch(postsSuccess(posts)))
+      .then(posts => dispatch(postsFetchData(posts)))
       .catch(() => dispatch(postsErrored(true)));
   };
 }
