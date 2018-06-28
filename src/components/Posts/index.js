@@ -27,7 +27,7 @@ class Posts extends Component {
     }
     return (
       <div>
-        <Link to="/admin/post">Crate</Link>
+        <Link to="/admin/post">Create</Link>
         <ul>
           {posts.map(post => (
             <li key={post.id}>
