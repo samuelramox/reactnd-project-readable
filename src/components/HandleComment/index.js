@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import serializeForm from 'form-serialize';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import serializeForm from 'form-serialize';
 import uuidv1 from 'uuid/v1';
 import {
   insertComment,

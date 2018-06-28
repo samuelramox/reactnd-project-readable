@@ -71,6 +71,13 @@ export function postFetchById(idPost) {
   };
 }
 
+export function handleSort(sortBy) {
+  return {
+    type: 'HANDLE_SORT_POSTS',
+    sortBy
+  };
+}
+
 export function insertPost(postData, id) {
   const baseUrl = 'http://localhost:3001/posts';
   const url = id ? `${baseUrl}/${id}` : baseUrl;

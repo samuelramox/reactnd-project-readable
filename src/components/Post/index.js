@@ -14,17 +14,18 @@ class Post extends PureComponent {
   }
 
   render() {
-    const { post, c_isLoading, p_isLoading, comments } = this.props;
-
-    if (p_isLoading) {
-      return <h1>Loading</h1>;
+    const { post, isLoading } = this.props;
+    const { match = {} } = this.props;
+    const { params = {} } = match;
+    const { id } = params;
+    if (isLoading) {
+      return <h1>Loading...</h1>;
     }
-
     return (
       <article>
         <h1>{post.title}</h1>
         <div>{post.body}</div>
-        <Comments isLoading={c_isLoading} data={comments} />
+        <Comments idPost={id} />
       </article>
     );
   }
@@ -33,10 +34,8 @@ class Post extends PureComponent {
 const mapStateToProps = state => {
   return {
     comments: state.comments,
-    c_hasErrored: state.commentsErrored,
-    c_isLoading: state.commentsLoading,
-    p_hasErrored: state.postsErrored,
-    p_isLoading: state.postsLoading,
+    hasErrored: state.postsErrored,
+    isLoading: state.postsLoading,
     post: state.post
   };
 };

@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { deleteComment } from '../../actions/comments';
+import Votes from '../Votes';
+import { deleteComment, commentsFetchData } from '../../actions/comments';
+import { handleVoteScore } from '../../actions/votes';
 import { connect } from 'react-redux';
 
 class Comments extends Component {
-  onDeleteComment = id => {
+  onDeleteComment = async id => {
+    const { idPost, deleteComment, fetchComments } = this.props;
     const resultConfirm = window.confirm('Delete this item');
     if (resultConfirm) {
-      this.props.deleteComment(id);
+      await deleteComment(id);
+      fetchComments(idPost);
     }
+  };
+
+  handleScore = async (id, value) => {
+    const { idPost, handleScore, fetchComments } = this.props;
+    const url = `http://localhost:3001/comments/${id}`;
+    const res = { option: value };
+    await handleScore(url, res);
+    fetchComments(idPost);
   };
 
   render() {
@@ -28,31 +40,27 @@ class Comments extends Component {
         <div>
           <h2>Comments</h2>
           <Link to={`/admin/comment/${parentId}`}>Add comment</Link>
-
           <ul>
             {data.map(comment => (
               <li key={comment.id}>
                 <div>{comment.body}</div>
-
                 <Link to={`/admin/comment/${parentId}/${comment.id}`}>
-                  Edit
+                  Edit this comment
                 </Link>
-
                 <button onClick={() => this.onDeleteComment(comment.id)}>
                   Delete
                 </button>
-
                 <div>
                   Author: <b>{comment.author}</b>
                 </div>
                 <div>
-                  <b>{comment.commentCount}</b>Comments
+                  <b>{comment.commentCount}</b> Comments
                 </div>
-                <div>
-                  <button> - </button>
-                  <b>{comment.voteScore}</b>Votes
-                  <button> + </button>
-                </div>
+                <Votes
+                  id={comment.id}
+                  handleScore={this.handleScore}
+                  score={comment.voteScore}
+                />
               </li>
             ))}
           </ul>
@@ -62,10 +70,16 @@ class Comments extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  data: state.comments,
+  isLoading: state.commentsIsLoading,
+  hasErrored: state.commentsHasErrored
+});
 
 const mapDispatchToProps = dispatch => ({
-  deleteComment: idComment => dispatch(deleteComment(idComment))
+  deleteComment: idComment => dispatch(deleteComment(idComment)),
+  fetchComments: idPost => dispatch(commentsFetchData(idPost)),
+  handleScore: (url, value) => dispatch(handleVoteScore(url, value))
 });
 
 export default connect(

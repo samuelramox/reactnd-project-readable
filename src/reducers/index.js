@@ -7,6 +7,7 @@ import {
   comments,
   comment
 } from './comments';
+import { votes } from './votes';
 
 export default combineReducers({
   postsLoading,
@@ -19,5 +20,6 @@ export default combineReducers({
   commentsLoading,
   commentsErrored,
   comments,
-  comment
+  comment,
+  votes
 });
