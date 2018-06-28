@@ -35,7 +35,7 @@ export function insertUpdatePostSuccess(post) {
   };
 }
 
-export function deletePostSucess(post) {
+export function deletePostSuccess(post) {
   return {
     type: 'DELETE_POST',
     post
@@ -110,7 +110,7 @@ export function deletePost(id) {
         dispatch(postsLoading(false));
         return res.data;
       })
-      .then(post => dispatch(deletePostSucess(post)))
+      .then(post => dispatch(deletePostSuccess(post)))
       .catch(() => dispatch(postsErrored(true)));
   };
 }
