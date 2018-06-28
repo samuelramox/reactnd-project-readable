@@ -1,17 +1,17 @@
-import { post } from '../services';
+import { post } from '../services/api';
 
-export function handleVoteScoreSuccess() {
+export function handleVotesSuccess() {
   return {
-    type: 'VOTE_SCORE_SUCCESS'
+    type: 'VOTES_SUCCESS'
   };
 }
 
-export function handleVoteScore(url, value) {
+export function handleVotes(url, value) {
   return dispatch => {
     post(url, value)
       .then(res => {
         return res.data;
       })
-      .then(() => dispatch(handleVoteScoreSuccess()));
+      .then(() => dispatch(handleVotesSuccess()));
   };
 }

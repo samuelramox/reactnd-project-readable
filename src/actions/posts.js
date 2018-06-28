@@ -1,44 +1,74 @@
-import { get, post, put, deleteData } from '../services';
+import { get, post, put, deleteData } from '../services/api';
+import {
+  POSTS_IS_LOADING,
+  POSTS_HAS_ERRORED,
+  POSTS_FETCH_DATA_SUCCESS,
+  POST_FETCH_BY_ID_DATA_SUCCESS,
+  INSERT_UPDATE_POST_SUCCESS,
+  DELETE_POST_SUCCESS,
+  HANDLE_SORT_POSTS
+} from '../services/actions';
 
-export function postsLoading(bool) {
+export function postsIsLoading(bool) {
   return {
-    type: 'POSTS_LOADING',
+    type: POSTS_IS_LOADING,
     isLoading: bool
   };
 }
 
-export function postsErrored(bool) {
+export function postsHasErrored(bool) {
   return {
-    type: 'POSTS_ERRORED',
+    type: POSTS_HAS_ERRORED,
     hasErrored: bool
   };
 }
 
-export function postsSuccess(posts) {
+export function postsFetchDataSuccess(posts) {
   return {
-    type: 'POSTS_SUCCESS',
+    type: POSTS_FETCH_DATA_SUCCESS,
     posts
   };
 }
 
-export function postIdSuccess(post) {
+export function postFetchByIdDataSuccess(post) {
   return {
-    type: 'POST_ID_SUCCESS',
+    type: POST_FETCH_BY_ID_DATA_SUCCESS,
     post
   };
 }
 
 export function insertUpdatePostSuccess(post) {
   return {
-    type: 'INSERT_UPDATE_POST_SUCCESS',
+    type: INSERT_UPDATE_POST_SUCCESS,
     post
   };
 }
 
 export function deletePostSuccess(post) {
   return {
-    type: 'DELETE_POST',
+    type: DELETE_POST_SUCCESS,
     post
+  };
+}
+
+export function handleSort(sortBy) {
+  return {
+    type: HANDLE_SORT_POSTS,
+    sortBy
+  };
+}
+
+export function postFetchById(idPost) {
+  const url = `http://localhost:3001/posts/${idPost}`;
+  return dispatch => {
+    dispatch(postsIsLoading(true));
+    get(url)
+      .then(res => {
+        dispatch(postsIsLoading(false));
+        return res.data;
+      })
+      .then(post => dispatch(postFetchByIdDataSuccess(post)))
+      .catch(() => dispatch(postsHasErrored(true)));
   };
 }
 
@@ -46,35 +76,14 @@ export function postsFetchData(category) {
   const baseUrl = 'http://localhost:3001';
   const url = category ? `${baseUrl}/${category}/posts` : `${baseUrl}/posts`;
   return dispatch => {
-    dispatch(postsLoading(true));
+    dispatch(postsIsLoading(true));
     get(url)
       .then(res => {
-        dispatch(postsLoading(false));
+        dispatch(postsIsLoading(false));
         return res.data;
       })
-      .then(posts => dispatch(postsFetchData(posts)))
-      .catch(() => dispatch(postsErrored(true)));
-  };
-}
-
-export function postFetchById(idPost) {
-  const url = `http://localhost:3001/posts/${idPost}`;
-  return dispatch => {
-    dispatch(postsLoading(true));
-    get(url)
-      .then(res => {
-        dispatch(postsLoading(false));
-        return res.data;
-      })
-      .then(post => dispatch(postIdSuccess(post)))
-      .catch(() => dispatch(postsErrored(true)));
-  };
-}
-
-export function handleSort(sortBy) {
-  return {
-    type: 'HANDLE_SORT_POSTS',
-    sortBy
+      .then(posts => dispatch(postsFetchDataSuccess(posts)))
+      .catch(() => dispatch(postsHasErrored(true)));
   };
 }
 
@@ -84,11 +93,11 @@ export function insertPost(postData, id) {
   return dispatch => {
     post(url, postData)
       .then(res => {
-        dispatch(postsLoading(false));
+        dispatch(postsIsLoading(false));
         return res.data;
       })
       .then(post => dispatch(insertUpdatePostSuccess(post)))
-      .catch(() => dispatch(postsErrored(true)));
+      .catch(() => dispatch(postsHasErrored(true)));
   };
 }
 
@@ -101,23 +110,24 @@ export function updatePost(id, { title, body }) {
   return dispatch => {
     put(url, data)
       .then(res => {
-        dispatch(postsLoading(false));
+        dispatch(postsIsLoading(false));
         return res.data;
       })
       .then(post => dispatch(insertUpdatePostSuccess(post)))
-      .catch(() => dispatch(postsErrored(true)));
+      .catch(() => dispatch(postsHasErrored(true)));
   };
 }
 
 export function deletePost(id) {
   const url = `http://localhost:3001/posts/${id}`;
+
   return dispatch => {
     deleteData(url)
       .then(res => {
-        dispatch(postsLoading(false));
+        dispatch(postsIsLoading(false));
         return res.data;
       })
       .then(post => dispatch(deletePostSuccess(post)))
-      .catch(() => dispatch(postsErrored(true)));
+      .catch(() => dispatch(postsHasErrored(true)));
   };
 }

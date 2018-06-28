@@ -1,22 +1,27 @@
-import { get } from '../services';
+import { get } from '../services/api';
+import {
+  CATEGORIES_IS_LOADING,
+  CATEGORIES_HAS_ERRORED,
+  CATEGORIES_FETCH_DATA_SUCCESS
+} from '../services/actions';
 
-export function categoriesLoading(bool) {
+export function categoriesIsLoading(bool) {
   return {
-    type: 'CATEGORIES_LOADING',
+    type: CATEGORIES_IS_LOADING,
     isLoading: bool
   };
 }
 
-export function categoriesErrored(bool) {
+export function categoriesHasErrored(bool) {
   return {
-    type: 'CATEGORIES_ERRORED',
+    type: CATEGORIES_HAS_ERRORED,
     hasErrored: bool
   };
 }
 
-export function categoriesSuccess(categories) {
+export function categoriesFetchDataSuccess(categories) {
   return {
-    type: 'CATEGORIES_SUCCESS',
+    type: CATEGORIES_FETCH_DATA_SUCCESS,
     categories
   };
 }
@@ -24,13 +29,13 @@ export function categoriesSuccess(categories) {
 export function categoriesFetchData() {
   const url = 'http://localhost:3001/categories';
   return dispatch => {
-    dispatch(categoriesLoading(true));
+    dispatch(categoriesIsLoading(true));
     get(url)
       .then(res => {
-        dispatch(categoriesLoading(false));
+        dispatch(categoriesIsLoading(false));
         return res.data;
       })
-      .then(categories => dispatch(categoriesSuccess(categories)))
-      .catch(() => dispatch(categoriesErrored(true)));
+      .then(categories => dispatch(categoriesFetchDataSuccess(categories)))
+      .catch(() => dispatch(categoriesHasErrored(true)));
   };
 }

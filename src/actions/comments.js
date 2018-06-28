@@ -1,43 +1,51 @@
-import { get, post, put, deleteData } from '../services';
+import { get, post, put, deleteData } from '../services/api';
+import {
+  COMMENTS_IS_LOADING,
+  COMMENTS_HAS_ERRORED,
+  COMMENTS_FETCH_DATA_SUCCESS,
+  COMMENT_FETCH_BY_ID_DATA_SUCCESS,
+  DELETE_COMMENT_SUCCESS,
+  INSERT_UPDATE_COMMENT_SUCCESS
+} from '../services/actions';
 
-export function commentsLoading(bool) {
+export function commentsIsLoading(bool) {
   return {
-    type: 'COMMENTS_LOADING',
+    type: COMMENTS_IS_LOADING,
     isLoading: bool
   };
 }
 
-export function commentsErrored(bool) {
+export function commentsHasErrored(bool) {
   return {
-    type: 'COMMENTS_ERRORED',
+    type: COMMENTS_HAS_ERRORED,
     hasErrored: bool
   };
 }
 
-export function commentsSuccess(comments) {
+export function commentsFetchDataSuccess(comments) {
   return {
-    type: 'COMMENTS_SUCCESS',
+    type: COMMENTS_FETCH_DATA_SUCCESS,
     comments
   };
 }
 
-export function commentIdSuccess(comment) {
+export function commentFetchByIdDataSuccess(comment) {
   return {
-    type: 'COMMENT_ID_SUCCESS',
+    type: COMMENT_FETCH_BY_ID_DATA_SUCCESS,
     comment
   };
 }
 
 export function deleteCommentSuccess(comment) {
   return {
-    type: 'DELETE_COMMENT_SUCCESS',
+    type: DELETE_COMMENT_SUCCESS,
     comment
   };
 }
 
 export function insertUpdateCommentSuccess(comment) {
   return {
-    type: 'INSERT_UPDATE_COMMENT_SUCCESS',
+    type: INSERT_UPDATE_COMMENT_SUCCESS,
     comment
   };
 }
@@ -45,14 +53,14 @@ export function insertUpdateCommentSuccess(comment) {
 export function commentsFetchData(postId) {
   const url = `http://localhost:3001/posts/${postId}/comments`;
   return dispatch => {
-    dispatch(commentsLoading(true));
+    dispatch(commentsIsLoading(true));
     get(url)
       .then(res => {
-        dispatch(commentsLoading(false));
+        dispatch(commentsIsLoading(false));
         return res.data;
       })
-      .then(comments => dispatch(commentsSuccess(comments)))
-      .catch(() => dispatch(commentsErrored(true)));
+      .then(comments => dispatch(commentsFetchDataSuccess(comments)))
+      .catch(() => dispatch(commentsHasErrored(true)));
   };
 }
 
@@ -62,25 +70,25 @@ export function insertComment(commentData) {
   return dispatch => {
     post(url, commentData)
       .then(res => {
-        dispatch(commentsLoading(false));
+        dispatch(commentsIsLoading(false));
         return res.data;
       })
       .then(post => dispatch(insertUpdateCommentSuccess(post)))
-      .catch(() => dispatch(commentsErrored(true)));
+      .catch(() => dispatch(commentsHasErrored(true)));
   };
 }
 
 export function commentFetchById(idComment) {
   const url = `http://localhost:3001/comments/${idComment}`;
   return dispatch => {
-    dispatch(commentsLoading(true));
+    dispatch(commentsIsLoading(true));
     get(url)
       .then(res => {
-        dispatch(commentsLoading(false));
+        dispatch(commentsIsLoading(false));
         return res.data;
       })
-      .then(comment => dispatch(commentIdSuccess(comment)))
-      .catch(() => dispatch(commentsErrored(true)));
+      .then(comment => dispatch(commentFetchByIdDataSuccess(comment)))
+      .catch(() => dispatch(commentsHasErrored(true)));
   };
 }
 
@@ -93,11 +101,11 @@ export function updateComment(id, { body, timestamp }) {
   return dispatch => {
     put(url, data)
       .then(res => {
-        dispatch(commentsLoading(false));
+        dispatch(commentsIsLoading(false));
         return res.data;
       })
       .then(comment => dispatch(insertUpdateCommentSuccess(comment)))
-      .catch(() => dispatch(commentsErrored(true)));
+      .catch(() => dispatch(commentsHasErrored(true)));
   };
 }
 
@@ -107,10 +115,10 @@ export function deleteComment(id) {
   return dispatch => {
     deleteData(url)
       .then(res => {
-        dispatch(commentsLoading(false));
+        dispatch(commentsIsLoading(false));
         return res.data;
       })
       .then(comment => dispatch(deleteCommentSuccess(comment)))
-      .catch(() => dispatch(commentsErrored(true)));
+      .catch(() => dispatch(commentsHasErrored(true)));
   };
 }
