@@ -2,16 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { postsFetchData, deletePost } from '../../actions/posts';
+import Header from '../Header';
 
 class Posts extends Component {
   componentDidMount() {
+    this.listPosts();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { match = {} } = nextProps;
+    const { params = {} } = match;
+    const changedRouteCategory = params.category;
+    const actualCategory = this.getCategoryName();
+    if (changedRouteCategory !== actualCategory) {
+      this.props.fetchData(changedRouteCategory);
+    }
+  }
+
+  listPosts = () => {
     const category = this.getCategoryName();
     if (this.isRenderedByCategory()) {
       this.props.fetchData(category);
     } else {
       this.props.fetchData();
     }
-  }
+  };
 
   isRenderedByCategory = () => {
     return !!this.getCategoryName();
@@ -42,10 +57,9 @@ class Posts extends Component {
     if (isLoading) {
       return <h1>Loading</h1>;
     }
-
     return (
       <div>
-        <Link to="/admin/post">Create</Link>
+        <Header />
         <h1>{message}</h1>
         <ul>
           {posts.map(post => (
@@ -58,7 +72,7 @@ class Posts extends Component {
                 {post.title}
               </Link>
               <span> - </span>
-              <Link to={`/admin/post/${post.id}`}>Edit</Link>
+              <Link to={`/admin/post/${post.id}`}>( edit this post )</Link>
               <button onClick={() => this.onDeletePost(post.id)}>Delete</button>
               <div>
                 Author: <strong>{post.author}</strong>
