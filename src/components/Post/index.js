@@ -33,10 +33,10 @@ class Post extends PureComponent {
 const mapStateToProps = state => {
   return {
     comments: state.comments,
-    c_hasErrored: state.commentsHasErrored,
-    c_isLoading: state.commentsIsLoading,
-    p_hasErrored: state.postsHasErrored,
-    p_isLoading: state.postsIsLoading,
+    c_hasErrored: state.commentsErrored,
+    c_isLoading: state.commentsLoading,
+    p_hasErrored: state.postsErrored,
+    p_isLoading: state.postsLoading,
     post: state.post
   };
 };

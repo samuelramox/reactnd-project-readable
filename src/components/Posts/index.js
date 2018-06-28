@@ -84,8 +84,8 @@ class Posts extends Component {
 
 const mapStateToProps = state => ({
   posts: state.posts,
-  hasErrored: state.postsHasErrored,
-  isLoading: state.postsIsLoading
+  hasErrored: state.postsErrored,
+  isLoading: state.postsLoading
 });
 
 const mapDispatchToProps = dispatch => ({

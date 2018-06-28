@@ -156,7 +156,7 @@ class HandlePost extends Component {
 const mapStateToProps = state => {
   return {
     post: state.post,
-    fetchError: state.postsHasErrored,
+    fetchError: state.postsErrored,
     categories: state.categories
   };
 };

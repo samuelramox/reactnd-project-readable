@@ -30,8 +30,8 @@ class Categories extends Component {
 const mapStateToProps = state => {
   return {
     categories: state.categories,
-    isLoading: state.categoriesIsLoading,
-    hasErrored: state.categoriesHasErrored
+    isLoading: state.categoriesLoading,
+    hasErrored: state.categoriesErrored
   };
 };
 
