@@ -22,6 +22,18 @@ Or with Yarn:
 yarn
 ```
 
+- Start the application:
+
+```
+npm start
+```
+
+Or with Yarn:
+
+```
+yarn start
+```
+
 ## Running server
 
 To get the server:
@@ -32,7 +44,7 @@ $ cd reactnd-project-readable-starter/api-server
 $ npm install
 ```
 
-After you get the server you can start the server with (in api-serve directory):
+After you get the server you can start the server with (in api-server directory):
 
 ```
 $ node server
