@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import serializeForm from 'form-serialize';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import serializeForm from 'form-serialize';
+import swal from 'sweetalert2';
 import uuidv1 from 'uuid/v1';
+import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { postFetchById, insertPost, updatePost } from '../../actions/posts';
 import { categoriesFetchData } from '../../actions/categories';
 import NotFound from '../NotFound';
@@ -40,7 +42,6 @@ class HandlePost extends Component {
   componentWillReceiveProps(nextProps) {
     const { update } = this.state;
     const { post } = nextProps;
-
     if (!update.updatedValues) {
       if (update.isUpdate && post.title) {
         this.setState({
@@ -60,6 +61,8 @@ class HandlePost extends Component {
   handleSubmit = e => {
     const { update = {} } = this.state;
     const { isUpdate = {} } = update;
+    const { insertPost, updatePost, match = {}, history } = this.props;
+    const { params = {} } = match;
     e.preventDefault();
     const values = serializeForm(e.target, { hash: true });
     const post = {
@@ -67,7 +70,14 @@ class HandlePost extends Component {
       timestamp: Date.now(),
       ...values
     };
-    this.props.insertPost(post);
+    if (isUpdate) {
+      updatePost(params.id, post);
+      swal('Success!', 'Post updated with success!', 'success');
+    } else {
+      insertPost(post);
+      swal('Success!', 'Post created with success!', 'success');
+    }
+    history.goBack();
   };
 
   handleTextChange = event => {
@@ -79,76 +89,78 @@ class HandlePost extends Component {
 
   render() {
     const { update, title, body, category, author } = this.state;
-    const { post, fetchError } = this.props;
+    const { fetchError } = this.props;
     const { categories = [] } = this.props.categories;
     const command = update.isUpdate === true ? 'Update' : 'Create';
-
-    if (!update.updatedValues) {
-      if (update.isUpdate && post.title) {
-        this.setState({
-          update: {
-            isUpdate: true,
-            updatedValues: true
-          },
-          title: post.title,
-          body: post.body
-        });
-      }
-    }
 
     if (fetchError) {
       return <NotFound />;
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <label>Title</label>
-          <input
-            type="text"
-            name="title"
-            value={title}
-            onChange={this.handleTextChange}
-          />
-        </div>
-        <div>
-          <label>Body</label>
-          <textarea
-            type="content"
-            name="body"
-            value={body}
-            onChange={this.handleTextChange}
-          />
-        </div>
-
-        {!update.isUpdate && (
-          <div>
-            <div>
-              <label>Categories</label>
-              <select name="category" value={category}>
-                {categories.length > 0 &&
-                  categories.map(c => {
-                    return (
-                      <option value={c.name} key={c.path}>
-                        {c.name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
-            <div>
-              <label>Author</label>
-              <input
+      <Row className="mt-5">
+        <Col sm="8" xs="10" md="6" ls="6" xl="6" className="m-auto">
+          <Form onSubmit={this.handleSubmit} className="d-flex flex-column">
+            <FormGroup>
+              <Label className="font-weight-bold">Title</Label>
+              <Input
                 type="text"
-                name="author"
-                value={author}
+                name="title"
+                value={title}
                 onChange={this.handleTextChange}
+                required
               />
-            </div>
-          </div>
-        )}
-        <button type="submit">{`${command} Post`}</button>
-      </form>
+            </FormGroup>
+            <FormGroup>
+              <Label className="font-weight-bold">Body</Label>
+              <Input
+                type="textarea"
+                name="body"
+                value={body}
+                onChange={this.handleTextChange}
+                required
+              />
+            </FormGroup>
+            {!update.isUpdate && (
+              <div>
+                <FormGroup>
+                  <Label className="font-weight-bold">Categories</Label>
+                  <Input
+                    type="select"
+                    name="category"
+                    value={category}
+                    onChange={this.handleTextChange}
+                  >
+                    {categories.length > 0 &&
+                      categories.map(c => {
+                        return (
+                          <option value={c.name} key={c.path}>
+                            {c.name}
+                          </option>
+                        );
+                      })}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label className="font-weight-bold">Author</Label>
+                  <Input
+                    type="text"
+                    name="author"
+                    value={author}
+                    onChange={this.handleTextChange}
+                    required
+                  />
+                </FormGroup>
+              </div>
+            )}
+            <Button
+              color="success"
+              className="align-self-end my-3"
+              type="submit"
+            >{`${command}`}</Button>
+          </Form>
+        </Col>
+      </Row>
     );
   }
 }
@@ -156,7 +168,7 @@ class HandlePost extends Component {
 const mapStateToProps = state => {
   return {
     post: state.post,
-    fetchError: state.postsErrored,
+    fetchError: state.postsHasErrored,
     categories: state.categories
   };
 };

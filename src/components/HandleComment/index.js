@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import serializeForm from 'form-serialize';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import serializeForm from 'form-serialize';
+import swal from 'sweetalert2';
 import uuidv1 from 'uuid/v1';
+import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import {
   insertComment,
   commentFetchById,
@@ -57,35 +59,31 @@ class HandleComment extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-
-    const { match = {} } = this.props;
+    const { match = {}, history } = this.props;
     const { params = {} } = match;
-
+    const { insertComment, updateComment } = this.props;
     const values = serializeForm(e.target, { hash: true });
-
     let idComment = '';
-
     if (params.id === undefined) {
       idComment = uuidv1();
-
       const comment = {
         id: idComment,
         timestamp: Date.now(),
         ...values,
         parentId: params.idPost
       };
-
-      this.props.insertComment(comment);
+      insertComment(comment);
+      swal('Success!', 'Comment created with success!', 'success');
     } else {
       idComment = params.id;
-
       const comment = {
         timestamp: Date.now(),
         ...values
       };
-
-      this.props.updateComment(idComment, comment);
+      updateComment(idComment, comment);
+      swal('Success!', 'Comment updated with success!', 'success');
     }
+    history.goBack();
   };
 
   handleTextChange = event => {
@@ -104,31 +102,41 @@ class HandleComment extends Component {
       return <NotFound />;
     }
 
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <label>Body</label>
-          <textarea
-            type="content"
-            name="body"
-            value={body}
-            onChange={this.handleTextChange}
-          />
-        </div>
+    if (update.isUpdate && body === '') {
+      return <NotFound />;
+    }
 
-        {!update.isUpdate && (
-          <div>
-            <label>Author</label>
-            <input
-              type="text"
-              name="author"
-              value={author}
-              onChange={this.handleTextChange}
-            />
-          </div>
-        )}
-        <button type="submit">{`${command} Comment`}</button>
-      </form>
+    return (
+      <Row className="mt-5">
+        <Col sm="8" xs="10" md="6" ls="6" xl="6" className="m-auto">
+          <Form onSubmit={this.handleSubmit} className="d-flex flex-column">
+            <FormGroup>
+              <Label className="font-weight-bold">Body</Label>
+              <Input
+                type="textarea"
+                name="body"
+                value={body}
+                onChange={this.handleTextChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label className="font-weight-bold">Author</Label>
+              <Input
+                type="text"
+                name="author"
+                value={author}
+                onChange={this.handleTextChange}
+              />
+            </FormGroup>
+            <Button
+              color="success"
+              className="align-self-end my-3"
+              type="submit"
+            >{`${command}`}</Button>
+          </Form>
+        </Col>
+      </Row>
     );
   }
 }

@@ -1,11 +1,25 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 
 const Votes = ({ id, score, handleScore }) => {
   return (
     <div>
-      <button onClick={() => handleScore(id, 'downVote')}> - </button>
-      <strong>Score</strong> {score}
-      <button onClick={() => handleScore(id, 'upVote')}> + </button>
+      <Button
+        color="danger"
+        className="py-0 mr-2"
+        onClick={() => handleScore(id, 'downVote')}
+      >
+        -
+      </Button>
+      <span className="text-secondary">Score: </span>
+      <span className="font-weight-bold"> {score} </span>
+      <Button
+        color="success"
+        className="py-0 ml-2"
+        onClick={() => handleScore(id, 'upVote')}
+      >
+        +
+      </Button>
     </div>
   );
 };

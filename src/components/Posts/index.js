@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { postsFetchData, deletePost, handleSort } from '../../actions/posts';
-import { handleVoteScore } from '../../actions/votes';
+import { connect } from 'react-redux';
 import Votes from '../Votes';
-import Header from '../Header';
+import { postsFetchData, deletePost, handleSort } from '../../actions/posts';
+import { handleVotes } from '../../actions/votes';
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  CardFooter,
+  Button,
+  Row,
+  Col,
+  Container
+} from 'reactstrap';
 
 class Posts extends Component {
   componentDidMount() {
@@ -41,7 +50,9 @@ class Posts extends Component {
   };
 
   onDeletePost = async id => {
-    const resultConfirm = window.confirm('Delete this item?');
+    const resultConfirm = window.confirm(
+      'Are You Sure you want to Delete this item?'
+    );
     if (resultConfirm) {
       await this.props.deletePost(id);
       this.props.fetchData();
@@ -64,53 +75,94 @@ class Posts extends Component {
 
   render() {
     const { posts, hasErrored, isLoading } = this.props;
-    const message = this.getCategoryName()
-      ? `List all posts of ${this.getCategoryName()}`
-      : 'List all posts';
+    const message = this.getCategoryName() ? true : false;
     if (hasErrored) {
-      return <h1>Error with data</h1>;
+      return <h1>Error whith fetch data</h1>;
     }
     if (isLoading) {
-      return <h1>Loading</h1>;
+      return <h1>Loading...</h1>;
     }
     return (
       <div>
-        <Header />
-        <h1>{message}</h1>
-        <div>
-          <button onClick={this.handleSort('timestamp')}>Order by date</button>
-          <button onClick={this.handleSort('votes')}>Order by score</button>
+        {message && (
+          <div className="text-center text-capitalize text-secondary my-4">
+            <h1>Posts Category: {this.getCategoryName()}</h1>
+          </div>
+        )}
+        <div className="text-center text-secondary my-4">
+          <h4>Order by: </h4>
+          <Button
+            color="info"
+            className="btn-md m-2"
+            onClick={this.handleSort('timestamp')}
+          >
+            Data
+          </Button>
+          <Button
+            color="info"
+            className="btn-md m-2"
+            onClick={this.handleSort('voteScore')}
+          >
+            Score
+          </Button>
         </div>
-        <ul>
-          {posts.map(post => (
-            <li key={post.id}>
-              <Link
-                to={{
-                  pathname: `/${post.category}/${post.id}`
-                }}
-              >
-                {post.title}
-              </Link>
-              <span> - </span>
-              <Link to={`/admin/post/${post.id}`}>( edit this post )</Link>
-              <button onClick={() => this.onDeletePost(post.id)}>Delete</button>
-              <div>
-                Author: <strong>{post.author}</strong>
-              </div>
-              <div>
-                Category: <strong> {post.category} </strong>
-              </div>
-              <div>
-                <strong>{post.commentCount}</strong>Comments
-              </div>
-              <Votes
-                id={post.id}
-                handleScore={this.handleScore}
-                score={post.voteScore}
-              />
-            </li>
-          ))}
-        </ul>
+        <Container>
+          <Row>
+            {posts.map(post => (
+              <Col sm="12" xs="12" md="6" ls="6" xl="6">
+                <Card className="card-height mb-3 shadow" key={post.id}>
+                  <CardTitle
+                    className="h4 text-center mt-3"
+                    tag={Link}
+                    to={{
+                      pathname: `/${post.category}/${post.id}`
+                    }}
+                  >
+                    {post.title}
+                  </CardTitle>
+                  <CardBody className="font-weight-bold text-capitalize">
+                    <p className="text-secondary">
+                      Author:
+                      <span className="text-dark m-2">{post.author}</span>
+                    </p>
+                    <p className="text-secondary">
+                      Category:<span className="text-dark m-2">
+                        {post.category}
+                      </span>
+                    </p>
+                    <p className="text-secondary">
+                      Comments:<span className="text-dark m-2">
+                        {post.commentCount}
+                      </span>
+                    </p>
+                    <Votes
+                      id={post.id}
+                      handleScore={this.handleScore}
+                      score={post.voteScore}
+                    />
+                  </CardBody>
+                  <CardFooter className="d-flex justify-content-center">
+                    <Button
+                      color="info"
+                      className="btn-md mx-3"
+                      tag={Link}
+                      to={`/admin/post/${post.id}`}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      color="danger"
+                      className="btn-md mx-3"
+                      onClick={() => this.onDeletePost(post.id)}
+                    >
+                      Delete
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
       </div>
     );
   }
@@ -118,14 +170,14 @@ class Posts extends Component {
 
 const mapStateToProps = state => ({
   posts: state.posts,
-  hasErrored: state.postsErrored,
-  isLoading: state.postsLoading
+  hasErrored: state.postsHasErrored,
+  isLoading: state.postsIsLoading
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchData: idCategory => dispatch(postsFetchData(idCategory)),
   deletePost: idPost => dispatch(deletePost(idPost)),
-  handleScore: (url, value) => dispatch(handleVoteScore(url, value)),
+  handleScore: (url, value) => dispatch(handleVotes(url, value)),
   handleSort: sortBy => dispatch(handleSort(sortBy))
 });
 
