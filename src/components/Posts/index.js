@@ -109,8 +109,8 @@ class Posts extends Component {
         <Container>
           <Row>
             {posts.map(post => (
-              <Col sm="12" xs="12" md="6" ls="6" xl="6">
-                <Card className="card-height mb-3 shadow" key={post.id}>
+              <Col sm="12" xs="12" md="6" ls="6" xl="6" key={post.id}>
+                <Card className="card-height mb-3 shadow">
                   <CardTitle
                     className="h4 text-center mt-3"
                     tag={Link}
