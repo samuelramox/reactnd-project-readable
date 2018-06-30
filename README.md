@@ -2,6 +2,11 @@
 
 Project made in Udacity React nanodegree.
 
+## Prerequisities
+
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
+
 ## Running this project:
 
 - Clone this project:
