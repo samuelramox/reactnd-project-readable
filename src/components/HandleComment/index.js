@@ -94,7 +94,7 @@ class HandleComment extends Component {
   };
 
   render() {
-    const { update, author, body } = this.state;
+    const { update, body } = this.state;
     const { fetchError } = this.props;
     const command = update.isUpdate === true ? 'Update' : 'Create';
 
@@ -118,15 +118,6 @@ class HandleComment extends Component {
                 value={body}
                 onChange={this.handleTextChange}
                 required
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label className="font-weight-bold">Author</Label>
-              <Input
-                type="text"
-                name="author"
-                value={author}
-                onChange={this.handleTextChange}
               />
             </FormGroup>
             <Button
