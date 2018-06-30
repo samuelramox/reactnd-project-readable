@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import swal from 'sweetalert2';
-import { Button } from 'reactstrap';
+import { Button, Card, CardBody, CardFooter, Container } from 'reactstrap';
 import { deleteComment, commentsFetchData } from '../../actions/comments';
+import Votes from '../Votes';
 
 const onDeleteComment = async (id, props, history) => {
   const { deleteComment } = props;
@@ -29,50 +30,47 @@ const Comments = props => {
 
   return (
     <div>
-      <h2>
+      <h3 className="my-3">
         Comments:
         <span className="font-weight-bold text-dark mx-2">{`${
           post.commentCount
         }`}</span>
-      </h2>
-      <Button
-        className="mb-3"
-        tag={Link}
-        to={`/admin/comment/${idPost}`}
-        color="success"
-      >
-        New comment
-      </Button>
-      <div>
+      </h3>
+      <Container>
         {data.map(comment => (
-          <div key={comment.id}>
-            <hr />
-            <div>{comment.body}</div>
-            <p className="text-secondary mt-3">
-              Author:<span className="font-weight-bold text-dark mx-2">
-                {comment.author}
-              </span>
-            </p>
-            <div className="d-flex justify-content-center">
-              <Button
-                color="info"
-                className="btn-md mx-2"
-                tag={Link}
-                to={`/admin/comment/${parentId}/${comment.id}`}
-              >
-                Edit
-              </Button>
-              <Button
-                color="danger"
-                className="btn-md mx-2"
-                onClick={() => onDeleteComment(comment.id, props, history)}
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
+          <Card className="mb-3 shadow-sm" key={comment.id}>
+            <CardBody>{comment.body}</CardBody>
+            <CardFooter className="d-flex justify-content-between flex-wrap">
+              <p className="text-secondary">
+                Author:<span className="font-weight-bold text-dark mx-2">
+                  {comment.author}
+                </span>
+              </p>
+
+              <div className="btn-mobile d-flex justify-content-center">
+                <Button
+                  color="info"
+                  className="btn-md mx-2"
+                  tag={Link}
+                  to={`/admin/comment/${parentId}/${comment.id}`}
+                >
+                  Edit
+                </Button>
+                <Button
+                  color="danger"
+                  className="btn-md mx-2"
+                  onClick={() => onDeleteComment(comment.id, props, history)}
+                >
+                  Delete
+                </Button>
+              </div>
+            </CardFooter>
+          </Card>
         ))}
-      </div>
+        <Button tag={Link} to={`/admin/comment/${idPost}`} color="success">
+          Add Comment
+        </Button>
+      </Container>
     </div>
   );
 };

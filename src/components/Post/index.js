@@ -55,7 +55,7 @@ class Post extends PureComponent {
       return <NotFound />;
     }
     return (
-      <article className="text-center text-capitalize text-secondary my-4">
+      <article className="text-center text-secondary my-4">
         <h1>{post.title}</h1>
         <p className="my-5">{post.body}</p>
         <Votes

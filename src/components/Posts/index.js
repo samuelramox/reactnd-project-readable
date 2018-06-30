@@ -120,7 +120,7 @@ class Posts extends Component {
                   >
                     {post.title}
                   </CardTitle>
-                  <CardBody className="font-weight-bold text-capitalize">
+                  <CardBody className="font-weight-bold">
                     <p className="text-secondary">
                       Author:
                       <span className="text-dark m-2">{post.author}</span>

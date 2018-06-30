@@ -6,3 +6,9 @@
 .card-height {
   height: 360px;
 }
+
+@media (max-width: 768px) {
+  .btn-mobile {
+    margin-left: 9.2rem !important;
+  }
+}

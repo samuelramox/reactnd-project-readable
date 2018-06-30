@@ -155,7 +155,7 @@ class HandlePost extends Component {
             )}
             <Button
               color="success"
-              className="align-self-end my-3"
+              className="align-self-end"
               type="submit"
             >{`${command}`}</Button>
           </Form>
