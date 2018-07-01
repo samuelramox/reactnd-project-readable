@@ -110,7 +110,7 @@ class Posts extends Component {
           <Row>
             {posts.map(post => (
               <Col sm="12" xs="12" md="6" ls="6" xl="6" key={post.id}>
-                <Card className="card-height mb-3 shadow">
+                <Card className="card-height mb-3 shadow-sm">
                   <CardTitle
                     className="h4 text-center mt-3"
                     tag={Link}

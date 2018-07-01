@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button } from 'reactstrap';
+import { Button, Card, CardBody, CardFooter, Container } from 'reactstrap';
 import Comments from '../Comments';
 import Votes from '../Votes';
 import NotFound from '../NotFound';
@@ -55,31 +55,40 @@ class Post extends PureComponent {
       return <NotFound />;
     }
     return (
-      <article className="text-center text-secondary my-4">
-        <h1>{post.title}</h1>
-        <p className="my-5">{post.body}</p>
-        <Votes
-          id={post.id}
-          handleScore={this.handleScore}
-          score={post.voteScore}
-        />
-        <Button
-          color="info"
-          className="btn-md mx-2 my-4"
-          tag={Link}
-          to={`/admin/post/${post.id}`}
-        >
-          Edit
-        </Button>
-        <Button
-          color="danger"
-          className="btn-md mx-2 my-4"
-          onClick={() => this.onDeletePost(post.id)}
-        >
-          Delete
-        </Button>
+      <Container className="text-center text-secondary my-4">
+        <Card className="shadow-sm">
+          <h1 className="my-4">{post.title}</h1>
+          <CardBody className="my-5">{post.body}</CardBody>
+          <CardFooter>
+            <p className="text-secondary">
+              Author:<span className="font-weight-bold text-dark mx-2">
+                {post.author}
+              </span>
+            </p>
+            <Votes
+              id={post.id}
+              handleScore={this.handleScore}
+              score={post.voteScore}
+            />
+            <Button
+              color="info"
+              className="btn-md mx-2 my-4"
+              tag={Link}
+              to={`/admin/post/${post.id}`}
+            >
+              Edit
+            </Button>
+            <Button
+              color="danger"
+              className="btn-md mx-2 my-4"
+              onClick={() => this.onDeletePost(post.id)}
+            >
+              Delete
+            </Button>
+          </CardFooter>
+        </Card>
         <Comments idPost={id} history={history} post={post} />
-      </article>
+      </Container>
     );
   }
 }
