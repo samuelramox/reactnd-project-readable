@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import swal from 'sweetalert2';
-import { Button, Card, CardBody, CardFooter, Container } from 'reactstrap';
+import { Button, Card, CardBody, CardFooter } from 'reactstrap';
 import { Error, Loading } from '../NotFound';
 import { deleteComment, commentsFetchData } from '../../actions/comments';
 import { handleVotes } from '../../actions/votes';
@@ -47,47 +47,50 @@ class Comments extends Component {
             post.commentCount
           }`}</span>
         </h3>
-        <Container>
-          {data.map(comment => (
-            <Card className="shadow-sm mb-2" key={comment.id}>
-              <CardBody>{comment.body}</CardBody>
-              <CardFooter className="d-flex justify-content-between flex-wrap">
-                <p className="text-secondary">
-                  Author:<span className="font-weight-bold text-dark mx-2">
-                    {comment.author}
-                  </span>
-                </p>
-                <Votes
-                  id={comment.id}
-                  handleScore={this.handleScore}
-                  score={comment.voteScore}
-                />
-                <div className="btn-mobile d-flex justify-content-center">
-                  <Button
-                    color="info"
-                    className="btn-md mx-2"
-                    tag={Link}
-                    to={`/admin/comment/${parentId}/${comment.id}`}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    color="danger"
-                    className="btn-md mx-2"
-                    onClick={() =>
-                      this.onDeleteComment(comment.id, this.props, history)
-                    }
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </CardFooter>
-            </Card>
-          ))}
-          <Button tag={Link} to={`/admin/comment/${idPost}`} color="success">
-            Add Comment
-          </Button>
-        </Container>
+        {data.map(comment => (
+          <Card className="shadow-sm mb-2" key={comment.id}>
+            <CardBody>{comment.body}</CardBody>
+            <CardFooter className="d-flex justify-content-between flex-wrap">
+              <p className="text-secondary">
+                Author:<span className="font-weight-bold text-dark mx-2">
+                  {comment.author}
+                </span>
+              </p>
+              <Votes
+                id={comment.id}
+                handleScore={this.handleScore}
+                score={comment.voteScore}
+              />
+              <div className="btn-mobile d-flex justify-content-center">
+                <Button
+                  color="info"
+                  className="btn-md mx-2"
+                  tag={Link}
+                  to={`/admin/comment/${parentId}/${comment.id}`}
+                >
+                  Edit
+                </Button>
+                <Button
+                  color="danger"
+                  className="btn-md mx-2"
+                  onClick={() =>
+                    this.onDeleteComment(comment.id, this.props, history)
+                  }
+                >
+                  Delete
+                </Button>
+              </div>
+            </CardFooter>
+          </Card>
+        ))}
+        <Button
+          tag={Link}
+          to={`/admin/comment/${idPost}`}
+          color="success"
+          className="mt-2"
+        >
+          Add Comment
+        </Button>
       </div>
     );
   }
