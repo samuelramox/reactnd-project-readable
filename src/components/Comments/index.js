@@ -47,7 +47,7 @@ class Comments extends Component {
         </h3>
         <Container>
           {data.map(comment => (
-            <Card className="mb-3 shadow-sm" key={comment.id}>
+            <Card className="mb-3" key={comment.id}>
               <CardBody>{comment.body}</CardBody>
               <CardFooter className="d-flex justify-content-between flex-wrap">
                 <p className="text-secondary">
