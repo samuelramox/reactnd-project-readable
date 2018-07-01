@@ -44,13 +44,13 @@ yarn start
 To get the server:
 
 ```
-$ git clone git@github.com:udacity/reactnd-project-readable-starter.git
-$ cd reactnd-project-readable-starter/api-server
-$ npm install
+git clone git@github.com:udacity/reactnd-project-readable-starter.git
+cd reactnd-project-readable-starter/api-server
+npm install
 ```
 
 After you get the server you can start the server with (in api-server directory):
 
 ```
-$ node server
+node server
 ```
