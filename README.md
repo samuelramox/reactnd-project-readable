@@ -39,7 +39,7 @@ Or with Yarn:
 yarn start
 ```
 
-## Running the server
+## Running the server:
 
 - To get the server:
 
