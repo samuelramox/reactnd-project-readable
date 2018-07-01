@@ -11,7 +11,7 @@ Project made in Udacity React nanodegree.
 
 - Clone this project:
 
-```
+```sh
 git clone https://github.com/samuelramox/reactnd-project-readable.git
 ```
 
@@ -39,17 +39,31 @@ Or with Yarn:
 yarn start
 ```
 
-## Running server
+## Running the server
 
-To get the server:
+- To get the server:
 
-```
+```sh
 git clone git@github.com:udacity/reactnd-project-readable-starter.git
+```
+
+- Install the dependencies:
+
+```sh
 cd reactnd-project-readable-starter/api-server
+
 npm install
 ```
 
-After you get the server you can start the server with (in api-server directory):
+Or with Yarn:
+
+```sh
+cd reactnd-project-readable-starter/api-server
+
+yarn
+```
+
+- Start the server (in /api-server directory):
 
 ```
 node server
