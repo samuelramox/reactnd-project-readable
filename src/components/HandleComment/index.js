@@ -5,12 +5,12 @@ import serializeForm from 'form-serialize';
 import swal from 'sweetalert2';
 import uuidv1 from 'uuid/v1';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { PageNotFound } from '../NotFound';
 import {
   insertComment,
   commentFetchById,
   updateComment
 } from '../../actions/comments';
-import NotFound from '../NotFound';
 
 class HandleComment extends Component {
   constructor(props) {
@@ -99,11 +99,11 @@ class HandleComment extends Component {
     const command = update.isUpdate === true ? 'Update' : 'Create';
 
     if (fetchError) {
-      return <NotFound />;
+      return <PageNotFound />;
     }
 
     if (update.isUpdate && body === '') {
-      return <NotFound />;
+      return <PageNotFound />;
     }
 
     return (

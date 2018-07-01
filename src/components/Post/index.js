@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Card, CardBody, CardFooter, Container } from 'reactstrap';
 import Comments from '../Comments';
 import Votes from '../Votes';
-import NotFound from '../NotFound';
+import { Loading, PageNotFound } from '../NotFound';
 import { commentsFetchData } from '../../actions/comments';
 import { postFetchById, deletePost } from '../../actions/posts';
 import { handleVotes } from '../../actions/votes';
@@ -48,12 +48,15 @@ class Post extends PureComponent {
     const { match = {} } = this.props;
     const { params = {} } = match;
     const { id } = params;
+
     if (isLoading) {
-      return <h1>Loading...</h1>;
+      return <Loading />;
     }
+
     if (post.title === undefined) {
-      return <NotFound />;
+      return <PageNotFound />;
     }
+
     return (
       <Container className="text-center text-secondary my-4">
         <Card className="shadow-sm">

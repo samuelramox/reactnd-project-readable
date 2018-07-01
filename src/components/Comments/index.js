@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import swal from 'sweetalert2';
 import { Button, Card, CardBody, CardFooter, Container } from 'reactstrap';
+import { Error, Loading } from '../NotFound';
 import { deleteComment, commentsFetchData } from '../../actions/comments';
 import { handleVotes } from '../../actions/votes';
 import Votes from '../Votes';
@@ -31,10 +32,11 @@ class Comments extends Component {
     const parentId = data.length > 0 ? data[0].parentId : '';
 
     if (hasErrored) {
-      return <h1>Error whith fetch data</h1>;
+      return <Error />;
     }
+
     if (isLoading) {
-      return <h1>Loading...</h1>;
+      return <Loading />;
     }
 
     return (

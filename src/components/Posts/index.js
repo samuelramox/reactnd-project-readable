@@ -14,6 +14,7 @@ import {
   Col,
   Container
 } from 'reactstrap';
+import { Loading, Error } from '../NotFound';
 
 class Posts extends Component {
   componentDidMount() {
@@ -76,12 +77,15 @@ class Posts extends Component {
   render() {
     const { posts, hasErrored, isLoading } = this.props;
     const message = this.getCategoryName() ? true : false;
+
     if (hasErrored) {
-      return <h1>Error whith fetch data</h1>;
+      return <Error />;
     }
+
     if (isLoading) {
-      return <h1>Loading...</h1>;
+      return <Loading />;
     }
+
     return (
       <div>
         {message && (

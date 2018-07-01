@@ -5,9 +5,9 @@ import serializeForm from 'form-serialize';
 import swal from 'sweetalert2';
 import uuidv1 from 'uuid/v1';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { PageNotFound } from '../NotFound';
 import { postFetchById, insertPost, updatePost } from '../../actions/posts';
 import { categoriesFetchData } from '../../actions/categories';
-import NotFound from '../NotFound';
 
 class HandlePost extends Component {
   constructor(props) {
@@ -94,7 +94,7 @@ class HandlePost extends Component {
     const command = update.isUpdate === true ? 'Update' : 'Create';
 
     if (fetchError) {
-      return <NotFound />;
+      return <PageNotFound />;
     }
 
     return (
