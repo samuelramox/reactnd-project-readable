@@ -102,10 +102,6 @@ class HandleComment extends Component {
       return <PageNotFound />;
     }
 
-    if (update.isUpdate && body === '') {
-      return <PageNotFound />;
-    }
-
     return (
       <Row className="mt-5">
         <Col sm="8" xs="10" md="6" ls="6" xl="6" className="m-auto">
