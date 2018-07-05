@@ -1,5 +1,15 @@
 # Udacity Readable Project
 
+This is a reading web application built with [React](https://reactjs.org/), [Redux](https://redux.js.org/) and [Reactstrap](https://reactstrap.github.io/).
+
+With this application, you can:
+
+- Post content
+- Make comments
+- Vote for the best posts and comments
+- Edit posts and comments
+- Delete posts and comments
+
 Project made in Udacity React nanodegree.
 
 ## Prerequisities
