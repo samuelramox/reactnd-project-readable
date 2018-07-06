@@ -49,12 +49,12 @@ class Post extends PureComponent {
     const { params = {} } = match;
     const { id } = params;
 
-    if (isLoading) {
-      return <Loading />;
-    }
-
     if (post.title === undefined) {
       return <PageNotFound />;
+    }
+
+    if (isLoading) {
+      return <Loading />;
     }
 
     return (
