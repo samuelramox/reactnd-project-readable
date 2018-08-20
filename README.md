@@ -54,7 +54,7 @@ yarn start
 - To get the server:
 
 ```sh
-git clone git@github.com:udacity/reactnd-project-readable-starter.git
+git clone https://github.com/udacity/reactnd-project-readable-starter.git
 ```
 
 - Install the dependencies:
